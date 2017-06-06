@@ -19,7 +19,3 @@ describe('User visits index page', function() {
   });
 
 });
-
-
-center: {lat: 50.822, lng: -0.137},
-zoom: 14
