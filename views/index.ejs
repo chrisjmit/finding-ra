@@ -38,7 +38,7 @@
         };
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
-            london = findLocation();
+            london = findLocation(position);
             map.setCenter(london);
             for (var i = 0; i < markers.length; i++) {
               markers[i].setMap(null);
@@ -65,7 +65,7 @@
         }
       }
 
-      function findLocation() {
+      function findLocation(position) {
         return {
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -74,7 +74,7 @@
 
       function setValue() {
         var placeTypeValue = document.getElementById("placeType").value;
-        setPlaces(findLocation(),placeTypeValue);
+        navigator.geolocation.getCurrentPosition(function(position) { setPlaces(findLocation(position), placeTypeValue); });
       }
 
       function setPlaces(location, type) {
@@ -82,7 +82,7 @@
 
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = findLocation();
+            var pos = findLocation(position);
 
             infoWindow.setPosition(pos);
             infoWindow.setContent('Location found.');
@@ -112,6 +112,8 @@
           infoWindow.open(map, this);
         });
       }
+
+      // Need to remove old markers on page every time we call createMarker
 
     </script>
 
