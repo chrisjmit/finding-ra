@@ -14,7 +14,7 @@
     <h1><%= title %></h1>
     <h3>Looking for a sunny spot to eat and drink?</h3>
 
-    <select id='placeType' onchange="setValue()">
+    <select id='placeType' onchange="setVenueType()">
       <option value="bar">Bar</option>
       <option value="cafe">Cafe</option>
       <option value="restaurant">Restaurant</option>
@@ -36,33 +36,25 @@
           lat: 51.5073509,
           lng: -0.12775829999998223
         };
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: london,
+          zoom: 15
+        });
         if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
+          getPosition(function(position) {
             london = findLocation(position);
             map.setCenter(london);
             for (var i = 0; i < markers.length; i++) {
               markers[i].setMap(null);
             }
             markers = [];
-            setPlaces(london);
+            renderUserLocationMarker();
+            findPlaces(london);
           });
         } else {
-          // Browser doesn't support Geolocation
-          //since you set coords above this section it will default to that
+          alert("We can't find where you are so you'll have to find yourself!");
         }
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: london,
-          zoom: 15
-        });
-            setPlaces(london, "bar");
-      }
-
-      function callback(results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-          }
-        }
+        findPlaces(london, "bar");
       }
 
       function findLocation(position) {
@@ -72,48 +64,85 @@
         };
       }
 
-      function setValue() {
-        var placeTypeValue = document.getElementById("placeType").value;
-        navigator.geolocation.getCurrentPosition(function(position) { setPlaces(findLocation(position), placeTypeValue); });
+      function getPosition(callback) {
+        navigator.geolocation.getCurrentPosition(function(position) {callback(position); });
       }
 
-      function setPlaces(location, type) {
-        infoWindow = new google.maps.InfoWindow;
+      function setVenueType() {
+        var placeTypeValue = document.getElementById("placeType").value;
+        getPosition(function(position) { findPlaces(findLocation(position), placeTypeValue); });
+      }
 
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = findLocation(position);
-
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
+      function renderUserLocationMarker() {
+        getPosition(function(position) {
+            infoWindow.setPosition(findLocation(position));
+            infoWindow.setContent('You are here');
             infoWindow.open(map);
-            map.setCenter(pos);
           });
-        }
+      }
 
-        var service = new google.maps.places.PlacesService(map);
-        service.nearbySearch({
+      function findPlaces(location, type) {
+        infoWindow = new google.maps.InfoWindow;
+        var placesLookup = new google.maps.places.PlacesService(map);
+        placesLookup.nearbySearch( { 
           location: location,
           radius: 1000,
           type: [type]
-        }, callback);
+        }, processSearchResults );
+      }
+
+      function processSearchResults(placesArray, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          for (var i = 0; i < placesArray.length; i++) {
+            console.log(placesArray[i]);
+            createMarker(placesArray[i]);
+          }
+        }
       }
 
       function createMarker(place) {
-        var placeLoc = place.geometry.location;
         var marker = new google.maps.Marker({
           map: map,
           position: place.geometry.location
         });
         markers.push(marker);
+        displayDetailsOnClick(place, marker);
+      }
 
+      function displayDetailsOnClick(place, marker) {
         google.maps.event.addListener(marker, 'click', function() {
-          infoWindow.setContent(place.name);
+          // service = new google.maps.places.PlacesService(map);
+          // service.getDetails(request, callback);
+          renderDetails(place);
           infoWindow.open(map, this);
         });
       }
 
-      // Need to remove old markers on page every time we call createMarker
+      function checkPlaceIsOpen(place) {
+        if ("undefined" === typeof place.opening_hours) {
+          var openOrClosed = '';
+        } else if (!place.opening_hours.open_now) {
+          var openOrClosed = "Closed";
+        } else if (place.opening_hours.open_now) {
+          var openOrClosed = "Open";
+        }
+        return openOrClosed;
+      }
+
+      function checkForAddress(place) {
+        if ("undefined" === typeof place.formatted_address) {
+          var address = '';
+        } else if (place.formatted_address) {
+          var address = place.formatted_address;
+        }
+        return address;
+      }
+
+      function renderDetails(place) {       
+        infoWindow.setContent('<div><strong>' + place.name + '</strong><br>' + 
+          checkPlaceIsOpen(place) + '<br>' + 
+          checkForAddress(place) + '</div>');
+      }
 
     </script>
 
