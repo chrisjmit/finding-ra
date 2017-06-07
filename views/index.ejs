@@ -13,7 +13,21 @@
 
     <h1><%= title %></h1>
     <h3>Looking for a sunny spot to eat and drink?</h3>
+    
+    <form id="placeType" onclick="setPlaces(findLocation, place)">
+      <input type="submit">Filter Places</input>
+    </form>
+    <select name='place' form='placeType'>
+      <option value="bar">Bar</option>
+      <option value="cafe">Cafe</option>
+      <option value="restaurant">Restaurant</option>
+      <option value="pub">Pub</option>
+    </select> 
+
       <div id="map"></div>
+
+
+
       <script>
       // Note: This example requires that you consent to location sharing when
       // prompted by your browser. If you see the error "The Geolocation service
@@ -30,10 +44,7 @@
         };
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
-            london = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
+            london = findLocation();
             map.setCenter(london);
             for (var i = 0; i < markers.length; i++) {
               markers[i].setMap(null);
@@ -49,7 +60,7 @@
           center: london,
           zoom: 15
         });
-            setPlaces(london, );
+            setPlaces(london, "bar");
       }
 
       function callback(results, status) {
@@ -60,15 +71,19 @@
         }
       }
 
-      function setPlaces(location) {
+      function findLocation() {
+        return { 
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+      }
+
+      function setPlaces(location, type) {
         infoWindow = new google.maps.InfoWindow;
 
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
+            var pos = findLocation();
 
             infoWindow.setPosition(pos);
             infoWindow.setContent('Location found.');
@@ -81,7 +96,7 @@
         service.nearbySearch({
           location: location,
           radius: 1000,
-          type: ['bar']
+          type: [type]
         }, callback);
       }
 
@@ -94,8 +109,8 @@
         markers.push(marker);
 
         google.maps.event.addListener(marker, 'click', function() {
-          infowindow.setContent(place.name);
-          infowindow.open(map, this);
+          infoWindow.setContent(place.name);
+          infoWindow.open(map, this);
         });
       }
 
