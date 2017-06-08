@@ -31,37 +31,30 @@
       var infowindow;
       var markers = [];
 
-      function setVenueType() {
-        var placeTypeValue = document.getElementById("placeType").value;
-        getPosition(function(position) { refreshMap(); findPlaces(findLocation(position), placeTypeValue); });
-      }
-
-      function refreshMap() {
-        for (var i = 0; i < markers.length; i++ ) {
-          markers[i].setMap(null);
-        }
-        markers.length = 0;
-      }
-
       function initMap() {
-        var mapCenter = {
+        var london = {
           lat: 51.5073509,
           lng: -0.12775829999998223
         };
         map = new google.maps.Map(document.getElementById('map'), {
-          center: mapCenter,
+          center: london,
           zoom: 15
         });
         if (navigator.geolocation) {
           getPosition(function(position) {
-            mapCenter = findLocation(position);
-            map.setCenter(mapCenter);
+            london = findLocation(position);
+            map.setCenter(london);
+            for (var i = 0; i < markers.length; i++) {
+              markers[i].setMap(null);
+            }
+            markers = [];
             renderUserLocationMarker();
+            findPlaces(london);
           });
         } else {
           alert("We can't find where you are so you'll have to find yourself!");
         }
-        findPlaces(mapCenter, "bar");
+        findPlaces(london, "bar");
       }
 
       function findLocation(position) {
@@ -72,7 +65,12 @@
       }
 
       function getPosition(callback) {
-        navigator.geolocation.getCurrentPosition(function(position) { callback(position); });
+        navigator.geolocation.getCurrentPosition(function(position) {callback(position); });
+      }
+
+      function setVenueType() {
+        var placeTypeValue = document.getElementById("placeType").value;
+        getPosition(function(position) { findPlaces(findLocation(position), placeTypeValue); });
       }
 
       function renderUserLocationMarker() {
@@ -97,6 +95,7 @@
       function processSearchResults(placesArray, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           for (var i = 0; i < placesArray.length; i++) {
+            console.log(placesArray[i]);
             createMarker(placesArray[i]);
           }
         }
@@ -159,7 +158,6 @@
       }
 
     </script>
->>>>>>> parent of 2b00470... added a find my position button and refactored
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZ5zivflPj5EFPSSeWuL92Og7j_kgUV4w&libraries=places&callback=initMap"
     async defer></script>
