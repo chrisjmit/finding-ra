@@ -121,9 +121,9 @@
       }
 
       function getPlaceDetails(place, callback) {
-        var request = { placeId: place.place_id }
+        var placeId = { placeId: place.place_id }
         service = new google.maps.places.PlacesService(map);
-        service.getDetails(request, callback);
+        service.getDetails(placeId, callback);
       }
 
       function checkPlaceIsOpen(place) {
