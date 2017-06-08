@@ -87,6 +87,7 @@
         placesLookup.nearbySearch( { 
           location: location,
           radius: 1000,
+          openNow: true,
           type: [type]
         }, processSearchResults );
       }
@@ -111,11 +112,18 @@
 
       function displayDetailsOnClick(place, marker) {
         google.maps.event.addListener(marker, 'click', function() {
-          // service = new google.maps.places.PlacesService(map);
-          // service.getDetails(request, callback);
-          renderDetails(place);
-          infoWindow.open(map, this);
+          getPlaceDetails(place, function(details, status) {
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+              renderDetails(details, marker);
+            }
+          });
         });
+      }
+
+      function getPlaceDetails(place, callback) {
+        var request = { placeId: place.place_id }
+        service = new google.maps.places.PlacesService(map);
+        service.getDetails(request, callback);
       }
 
       function checkPlaceIsOpen(place) {
@@ -129,19 +137,24 @@
         return openOrClosed;
       }
 
-      function checkForAddress(place) {
-        if ("undefined" === typeof place.formatted_address) {
-          var address = '';
-        } else if (place.formatted_address) {
-          var address = place.formatted_address;
+      function checkForAttribute(attr) {
+        if ("undefined" === typeof attr) {
+          var result = '';
+        } else if (attr) {
+          var result = attr;
         }
-        return address;
+        return result;
       }
 
-      function renderDetails(place) {       
-        infoWindow.setContent('<div><strong>' + place.name + '</strong><br>' + 
+      function renderDetails(place, marker) {       
+        infoWindow.setContent('<div><h3>' + 
+          place.name + '</h3>Google rating: ' + 
+          checkForAttribute(place.rating) + '<br>' +
           checkPlaceIsOpen(place) + '<br>' + 
-          checkForAddress(place) + '</div>');
+          checkForAttribute(place.formatted_address) + '<br><p><a target="_blank" href=' + 
+          place.website + '>' + 
+          checkForAttribute(place.website) + '</a></p></div>');
+        infoWindow.open(map, marker);
       }
 
     </script>
