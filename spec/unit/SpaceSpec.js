@@ -1,4 +1,4 @@
-require('../../server/models/Space');
+var Space = require('../../server/models/Space');
 
 describe('Space', function() {
   var space;
