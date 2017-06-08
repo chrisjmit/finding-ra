@@ -20,144 +20,19 @@
       <option value="restaurant">Restaurant</option>
     </select>
 
+    <button id = 'userLocation' onclick= 'centerUserPosition()'>
+      <label> Find my position </label>
+    </button>
+
+
       <div id="map"></div>
+   <script src="../controllers/map/fetchMap.js"> 
+   initMap(); 
 
-      <script>
-      // Note: This example requires that you consent to location sharing when
-      // prompted by your browser. If you see the error "The Geolocation service
-      // failed.", it means you probably did not give permission for the browser to
-      // locate you.
-      var map;
-      var infowindow;
-      var markers = [];
-
-      function initMap() {
-        var london = {
-          lat: 51.5073509,
-          lng: -0.12775829999998223
-        };
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: london,
-          zoom: 15
-        });
-        if (navigator.geolocation) {
-          getPosition(function(position) {
-            london = findLocation(position);
-            map.setCenter(london);
-            for (var i = 0; i < markers.length; i++) {
-              markers[i].setMap(null);
-            }
-            markers = [];
-            renderUserLocationMarker();
-            findPlaces(london);
-          });
-        } else {
-          alert("We can't find where you are so you'll have to find yourself!");
-        }
-        findPlaces(london, "bar");
-      }
-
-      function findLocation(position) {
-        return {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-      }
-
-      function getPosition(callback) {
-        navigator.geolocation.getCurrentPosition(function(position) {callback(position); });
-      }
-
-      function setVenueType() {
-        var placeTypeValue = document.getElementById("placeType").value;
-        getPosition(function(position) { findPlaces(findLocation(position), placeTypeValue); });
-      }
-
-      function renderUserLocationMarker() {
-        getPosition(function(position) {
-            infoWindow.setPosition(findLocation(position));
-            infoWindow.setContent('You are here');
-            infoWindow.open(map);
-          });
-      }
-
-      function findPlaces(location, type) {
-        infoWindow = new google.maps.InfoWindow;
-        var placesLookup = new google.maps.places.PlacesService(map);
-        placesLookup.nearbySearch( { 
-          location: location,
-          radius: 1000,
-          openNow: true,
-          type: [type]
-        }, processSearchResults );
-      }
-
-      function processSearchResults(placesArray, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          for (var i = 0; i < placesArray.length; i++) {
-            console.log(placesArray[i]);
-            createMarker(placesArray[i]);
-          }
-        }
-      }
-
-      function createMarker(place) {
-        var marker = new google.maps.Marker({
-          map: map,
-          position: place.geometry.location
-        });
-        markers.push(marker);
-        displayDetailsOnClick(place, marker);
-      }
-
-      function displayDetailsOnClick(place, marker) {
-        google.maps.event.addListener(marker, 'click', function() {
-          getPlaceDetails(place, function(details, status) {
-            if (status == google.maps.places.PlacesServiceStatus.OK) {
-              renderDetails(details, marker);
-            }
-          });
-        });
-      }
-
-      function getPlaceDetails(place, callback) {
-        var placeId = { placeId: place.place_id }
-        service = new google.maps.places.PlacesService(map);
-        service.getDetails(placeId, callback);
-      }
-
-      function checkPlaceIsOpen(place) {
-        if ("undefined" === typeof place.opening_hours) {
-          var openOrClosed = '';
-        } else if (!place.opening_hours.open_now) {
-          var openOrClosed = "Closed";
-        } else if (place.opening_hours.open_now) {
-          var openOrClosed = "Open";
-        }
-        return openOrClosed;
-      }
-
-      function checkForAttribute(attr) {
-        if ("undefined" === typeof attr) {
-          var result = '';
-        } else if (attr) {
-          var result = attr;
-        }
-        return result;
-      }
-
-      function renderDetails(place, marker) {       
-        infoWindow.setContent('<div><h3>' + 
-          place.name + '</h3>Google rating: ' + 
-          checkForAttribute(place.rating) + '<br>' +
-          checkPlaceIsOpen(place) + '<br>' + 
-          checkForAttribute(place.formatted_address) + '<br><p><a target="_blank" href=' + 
-          place.website + '>' + 
-          checkForAttribute(place.website) + '</a></p></div>');
-        infoWindow.open(map, marker);
-      }
-
-    </script>
+   </script>
+    <script src="../controllers/map/resetMapPlaces.js"></script>
+    <script src="../controllers/map/renderUserLocation.js"></script>
+ 
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZ5zivflPj5EFPSSeWuL92Og7j_kgUV4w&libraries=places&callback=initMap"
     async defer></script>
