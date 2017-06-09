@@ -9,9 +9,7 @@
 
   <body>
     <a href="/"><img src="https://s3.eu-west-2.amazonaws.com/ra-im/RA.png"></a>
-    
 
-    <h1><%= title %></h1>
     <h3>Looking for a sunny spot to eat and drink?</h3>
 
     <select id='placeType' onchange="setVenueType()">
@@ -20,7 +18,7 @@
       <option value="restaurant">Restaurant</option>
     </select>
 
-    <button id = 'userLocation' onclick= 'centerUserPosition()'>
+    <button class="button" id = 'userLocation' onclick= 'centerUserPosition()'>
       <label> Find my position </label>
     </button>
 
