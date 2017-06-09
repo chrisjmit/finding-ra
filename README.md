@@ -6,8 +6,10 @@ Sunny outside? Finding Ra is an app dedicated finding you a sunny spot outdoors 
 Finding Ra uses the Google Maps Javascript API, Google Places API and Geolocator
 API's to render a map of the currently open establishments within 1000 meters of the current location.
 
-Compiled over a few fast days during 'practice project week' of week 9 at Makers Academy, k
+## Background
+Following an early morning brainstorming session on Monday the 5th June 2017, our tema of four opted to look to a digital way to catch a few more rays  as our project for 'practice project week' of week 9 at Makers Academy.
 
+Serving as an introduction to the Google Maps API functionality and deploying via NodeJS, we compiled the following over a fast few days during which we met the highs and lows of click events, modules and.... ES6.
 
 ## Getting started
 
@@ -38,7 +40,7 @@ sequelize db:create
 sequelize db:migrate
 ```
 * Register with Google for an API key (https://developers.google.com/maps/documentation/javascript/get-api-key)
-* Replace the API key used for call requests as below:
+* In Views/Index.ejs, replace the API key used for call requests as below:
 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places&callback=initMap"</script>
 
 Run a server in Node, using Nodemon, via:
@@ -57,8 +59,6 @@ npm run test
 ## Contributing
 Please read [CONTRIBUTING.md] for details on our code of conduct, and the process for submitting pull requests to us.
 
-## Versioning
-
 ## Authors
 * **Ana-Maria Suciu**
 * **Chris Mitchell**
@@ -69,12 +69,9 @@ Please read [CONTRIBUTING.md] for details on our code of conduct, and the proces
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
-*
-*
-* Bodhi the Hedgehog
-
-
-
+* Ra
+* XP values
+* Bodhi the Hedgehog of Westward Ho!
 
 ### MVP User stories
 
