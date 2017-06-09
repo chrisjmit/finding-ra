@@ -1,7 +1,6 @@
 {
   "name": "ra",
   "version": "0.0.0",
-  "private": true,
   "scripts": {
     "start": "node ./bin/www",
     "start:dev": "nodemon ./bin/www",
@@ -27,7 +26,7 @@
     "zombie": "^5.0.5"
   },
   "description": "Ra-eats-and-drinks ==================",
-  "main": "app.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chrisjmit/ra.git"

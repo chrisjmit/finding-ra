@@ -1,10 +1,19 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Place = sequelize.define('Place', {
-    name: DataTypes.STRING,
-    place_id: DataTypes.STRING,
-    sun_start: DataTypes.TIME,
-    sun_end: DataTypes.TIME
+  const Place = sequelize.define('Place', {
+    name: {
+      type: DataTypes.STRING,
+    },
+    place_id: { 
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    sun_start: {
+      type: DataTypes.TIME
+    },
+    sun_end: {
+      type: DataTypes.TIME
+    },
   }, {
     classMethods: {
       associate: function(models) {
