@@ -84,7 +84,7 @@
       function findPlaces(location, type) {
         infoWindow = new google.maps.InfoWindow;
         var placesLookup = new google.maps.places.PlacesService(map);
-        placesLookup.nearbySearch( { 
+        placesLookup.nearbySearch( {
           location: location,
           radius: 1000,
           openNow: true,
@@ -126,6 +126,23 @@
         service.getDetails(placeId, callback);
       }
 
+      function renderDetails(place, marker) {
+        infoWindow.setContent(renderHTML(place));
+        infoWindow.open(map, marker);
+      }
+
+      function renderHTML(place) {
+        return (
+          '<div><h3>' +
+            place.name + '</h3>Google rating: ' +
+            checkForAttribute(place.rating) + '<br>' +
+            checkPlaceIsOpen(place) + '<br>' +
+            checkForAttribute(place.formatted_address) + '<br><p><a target="_blank" href=' +
+            place.website + '>' +
+            checkForAttribute(place.website) + '</a></p></div>'
+        );
+      }
+
       function checkPlaceIsOpen(place) {
         if ("undefined" === typeof place.opening_hours) {
           var openOrClosed = '';
@@ -146,16 +163,6 @@
         return result;
       }
 
-      function renderDetails(place, marker) {       
-        infoWindow.setContent('<div><h3>' + 
-          place.name + '</h3>Google rating: ' + 
-          checkForAttribute(place.rating) + '<br>' +
-          checkPlaceIsOpen(place) + '<br>' + 
-          checkForAttribute(place.formatted_address) + '<br><p><a target="_blank" href=' + 
-          place.website + '>' + 
-          checkForAttribute(place.website) + '</a></p></div>');
-        infoWindow.open(map, marker);
-      }
 
     </script>
 
