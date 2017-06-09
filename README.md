@@ -20,7 +20,6 @@ What things you need to install the software and how to install them:
 ```
 brew install git
 brew install npm
-npm install npm@latest -g
 ```
 
 ### Installing
@@ -38,18 +37,15 @@ To setup the test and development databases, run:
 sequelize db:create
 sequelize db:migrate
 ```
-Register with Google for an API key (https://developers.google.com/maps/documentation/javascript/get-api-key)
-Replace the API key used for call requests as below:
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places&callback=initMap"
-```
+* Register with Google for an API key (https://developers.google.com/maps/documentation/javascript/get-api-key)
+* Replace the API key used for call requests as below:
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places&callback=initMap"</script>
+
 Run a server in Node, using Nodemon, via:
 ```
 npm run start:dev
 ```
 Visit the server at http://localhost:3000
-```
-
-
 
 ## Running tests
 Testing uses Jasmine-Node and Zombie.js headless browser for click test events.
