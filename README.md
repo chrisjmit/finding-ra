@@ -57,23 +57,6 @@ With a server running, as per installation:
 npm run test
 ```
 
-## Contributing
-Please read [CONTRIBUTING.md](https://github.com/chrisjmit/ra/blob/readme/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Authors
-* **Ana-Maria Suciu**
-* **Chris Mitchell**
-* **Robert Jones**
-* **Samuel Blausten**
-
-## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-* Ra
-* XP values
-* Bodhi the Hedgehog of Westward Ho!
-
 ## MVP User stories
 
 ```
@@ -116,3 +99,20 @@ As a user,
 So I know how to get there quickly,
 I want to find details and directions to the place of choice
 ```
+
+## Contributing
+Please read [CONTRIBUTING.md](https://github.com/chrisjmit/ra/blob/readme/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Authors
+* **Ana-Maria Suciu**
+* **Chris Mitchell**
+* **Robert Jones**
+* **Samuel Blausten**
+
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+* Ra
+* XP values
+* Bodhi the Hedgehog of Westward Ho!
