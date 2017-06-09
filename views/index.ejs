@@ -5,6 +5,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   </head>
 
   <body>
@@ -29,10 +30,172 @@
    <script src="../controllers/map/fetchMap.js"> 
    initMap(); 
 
-   </script>
-    <script src="../controllers/map/resetMapPlaces.js"></script>
-    <script src="../controllers/map/renderUserLocation.js"></script>
- 
+      <script>
+      // Note: This example requires that you consent to location sharing when
+      // prompted by your browser. If you see the error "The Geolocation service
+      // failed.", it means you probably did not give permission for the browser to
+      // locate you.
+      var map;
+      var infowindow;
+      var markers = [];
+
+      function setVenueType() {
+        var placeTypeValue = document.getElementById("placeType").value;
+        getPosition(function(position) { refreshMap(); findPlaces(findLocation(position), placeTypeValue); });
+      }
+
+      function refreshMap() {
+        for (var i = 0; i < markers.length; i++ ) {
+          markers[i].setMap(null);
+        }
+        markers.length = 0;
+      }
+
+      function initMap() {
+        var mapCenter = {
+          lat: 51.5073509,
+          lng: -0.12775829999998223
+        };
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: mapCenter,
+          zoom: 15
+        });
+        findPlaces(mapCenter, "bar");
+      }
+
+      function findLocation(position) {
+        return {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+      }
+
+      function centerUserPosition(){
+        var mapCenter;
+        if (navigator.geolocation) {
+          getPosition(function(position) {
+            mapCenter = findLocation(position);
+            map.setCenter(mapCenter);
+            renderUserLocationMarker();
+            findPlaces(mapCenter, 'bar');
+          });
+        } else {
+          alert("We can't find where you are so you'll have to find yourself!");
+        }
+      }
+
+      function getPosition(callback) {
+        navigator.geolocation.getCurrentPosition(function(position) { callback(position); });
+      }
+
+      function renderUserLocationMarker() {
+        getPosition(function(position) {
+            infoWindow.setPosition(findLocation(position));
+            infoWindow.setContent('You are here');
+            infoWindow.open(map);
+          });
+      }
+
+      function findPlaces(location, type) {
+        infoWindow = new google.maps.InfoWindow;
+        var placesLookup = new google.maps.places.PlacesService(map);
+        placesLookup.nearbySearch( {
+          location: location,
+          radius: 1000,
+          openNow: true,
+          type: [type]
+        }, processSearchResults );
+      }
+
+      function processSearchResults(placesArray, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          for (var i = 0; i < placesArray.length; i++) {
+            createMarker(placesArray[i]);
+          }
+        }
+      }
+
+      function createMarker(place) {
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location
+        });
+        markers.push(marker);
+        displayDetailsOnClick(place, marker);
+      }
+
+      function displayDetailsOnClick(place, marker) {
+        google.maps.event.addListener(marker, 'click', function() {
+          getPlaceDetails(place, function(details, status) {
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+              renderDetails(details, marker);
+            }
+          });
+        });
+      }
+
+      function getPlaceDetails(place, callback) {
+        var placeId = { placeId: place.place_id }
+        service = new google.maps.places.PlacesService(map);
+        service.getDetails(placeId, callback);
+      }
+
+      function renderDetails(place, marker) {
+        infoWindow.setContent(renderHTML(place));
+        infoWindow.open(map, marker);
+      }
+
+      function renderHTML(place) {
+        return (
+          '<div><h3>' +
+            place.name + '</h3>Google rating: ' +
+            checkForAttribute(place.rating) + '<br>' +
+            checkPlaceIsOpen(place) + '<br>' +
+            checkForAttribute(place.formatted_address) + '<br><p><a target="_blank" href=' +
+            place.website + '>' +
+            checkForAttribute(place.website) + '</a></p></div>' +
+            '<img src="/suniconsmall.jpeg"><br>' +
+            '<p>Enter times for this venue where you can sit out in the sun!</p>' +
+            '<form id="sun-times" action=''>' +
+              'Start time: <input type="text" id="startTime" data-format="HH:mm" data-template="HH : mm" name="startTime">' + '  ' +
+              'End time: <input type="text" id="endTime" data-format="HH:mm" data-template="HH : mm" name="endTime">' +
+              '<input type="button" onclick="formSubmit()" value="Submit">  '
+            '</form>'
+
+            <script>
+            function formSubmit() {
+              document.getElementById("sun-times").submit();
+            }
+            </script>
+
+        );
+      }
+
+      function sunTimeSubmit(){
+
+      }
+
+      function checkPlaceIsOpen(place) {
+        if ("undefined" === typeof place.opening_hours) {
+          var openOrClosed = '';
+        } else if (!place.opening_hours.open_now) {
+          var openOrClosed = "Closed";
+        } else if (place.opening_hours.open_now) {
+          var openOrClosed = "Open";
+        }
+        return openOrClosed;
+      }
+
+      function checkForAttribute(attr) {
+        if ("undefined" === typeof attr) {
+          var result = '';
+        } else if (attr) {
+          var result = attr;
+        }
+        return result;
+      }
+
+    </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZ5zivflPj5EFPSSeWuL92Og7j_kgUV4w&libraries=places&callback=initMap"
     async defer></script>
