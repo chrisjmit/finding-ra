@@ -27,14 +27,8 @@
 
 
       <div id="map"></div>
-   <script src="../controllers/map/fetchMap.js"> 
-   initMap(); 
 
       <script>
-      // Note: This example requires that you consent to location sharing when
-      // prompted by your browser. If you see the error "The Geolocation service
-      // failed.", it means you probably did not give permission for the browser to
-      // locate you.
       var map;
       var infowindow;
       var markers = [];
@@ -153,26 +147,59 @@
             checkPlaceIsOpen(place) + '<br>' +
             checkForAttribute(place.formatted_address) + '<br><p><a target="_blank" href=' +
             place.website + '>' +
-            checkForAttribute(place.website) + '</a></p></div>' +
+            checkForAttribute(place.website) + '</a></p></div>' + 
             '<img src="/suniconsmall.jpeg"><br>' +
             '<p>Enter times for this venue where you can sit out in the sun!</p>' +
-            '<form id="sun-times" action=''>' +
-              'Start time: <input type="text" id="startTime" data-format="HH:mm" data-template="HH : mm" name="startTime">' + '  ' +
-              'End time: <input type="text" id="endTime" data-format="HH:mm" data-template="HH : mm" name="endTime">' +
-              '<input type="button" onclick="formSubmit()" value="Submit">  '
-            '</form>'
-
-            <script>
-            function formSubmit() {
-              document.getElementById("sun-times").submit();
-            }
-            </script>
-
+            renderSunTimeForm(place)
         );
       }
 
-      function sunTimeSubmit(){
+      function renderSunTimeForm(place) {
+        return (
+          '<form id="sun-times">' +
+              'Start time: ' +
+                '<input type="text" id="startTime" data-format="HH:mm" data-template="HH : mm" name="startTime">  ' +
+              'End time: ' +
+                '<input type="text" id="endTime" data-format="HH:mm" data-template="HH : mm" name="endTime">' +
+                '<input type="button" onclick="sunTimesSubmit(' + place + ')" value="Submit">  ' +
+          '</form>'
+          );
+      }
 
+      function formSubmit() {
+        document.getElementById("sun-times").submit();
+      }
+
+      function sunTimesSubmit(place){
+        var start = document.getElementById("startTime").value;
+        var end = document.getElementById("endTime").value;
+
+        models.sequelize.transaction(function(trans){
+          return models.places.findOrCreate({
+            where: {
+              place_id: place.place_id,
+            },
+            transaction: trans
+          })
+          .spread(function(placeResult, created){
+            if (created){
+              models.places.update({
+                sun_start: start,
+                sun_end: end
+              }, {
+                where: {
+                  place_id: place.place_id
+                }
+              });
+            }
+            else {
+              models.places.update({
+                sun_start: start,
+                sun_end: end
+              })
+            }     
+          }); 
+        }) 
       }
 
       function checkPlaceIsOpen(place) {

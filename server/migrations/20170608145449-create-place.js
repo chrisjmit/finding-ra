@@ -12,6 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       place_id: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       sun_start: {
