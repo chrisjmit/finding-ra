@@ -1,13 +1,13 @@
 Finding Ra
 ==================
 
-Sunny outside? Finding Ra is an app dedicated finding you a sunny spot outdoors at a bar, restaurant or cafe nearby.
+Sunny outside? Finding Ra is an app dedicated to finding you a sunny spot outdoors at a bar, restaurant or cafe nearby.
 
 Finding Ra uses the Google Maps Javascript API, Google Places API and Geolocator
 API's to render a map of the currently open establishments within 1000 meters of the current location.
 
 ## Background
-Following an early morning brainstorming session on Monday the 5th June 2017, our tema of four opted to look to a digital way to catch a few more rays  as our project for 'practice project week' of week 9 at Makers Academy.
+Following an early morning brainstorming session on Monday the 5th June 2017, our team of four opted to look to a digital way to catch a few more rays via our project for 'practice project week' of week 9 at Makers Academy.
 
 Serving as an introduction to the Google Maps API functionality and deploying via NodeJS, we compiled the following over a fast few days during which we met the highs and lows of click events, modules and.... ES6.
 
