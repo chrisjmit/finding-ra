@@ -5,7 +5,6 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   </head>
 
   <body>
@@ -150,25 +149,21 @@
             checkForAttribute(place.website) + '</a></p></div>' + 
             '<img src="/suniconsmall.jpeg"><br>' +
             '<p>Enter times for this venue where you can sit out in the sun!</p>' +
-            renderSunTimeForm(place)
-        );
-      }
-
-      function renderSunTimeForm(place) {
-        return (
-          '<form id="sun-times">' +
+            '<form id="sun-times">' +
               'Start time: ' +
                 '<input type="text" id="startTime" data-format="HH:mm" data-template="HH : mm" name="startTime">  ' +
               'End time: ' +
                 '<input type="text" id="endTime" data-format="HH:mm" data-template="HH : mm" name="endTime">' +
-                '<input type="button" onclick="sunTimesSubmit(' + place + ')" value="Submit">  ' +
+                '<input type="button" onclick="sunTimesSubmit(place)" value="Submit">  ' +
           '</form>'
-          );
+        );
       }
 
-      function formSubmit() {
-        document.getElementById("sun-times").submit();
-      }
+      // function renderSunTimeForm(place) {
+      //   return (
+          
+      //     );
+      // }
 
       function sunTimesSubmit(place){
         var start = document.getElementById("startTime").value;
