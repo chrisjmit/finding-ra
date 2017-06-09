@@ -41,7 +41,8 @@ sequelize db:migrate
 ```
 * Register with Google for an API key (https://developers.google.com/maps/documentation/javascript/get-api-key)
 * In Views/Index.ejs, replace the API key used for call requests as below:
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places&callback=initMap"</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places&callback=initMap"></script>
+
 
 Run a server in Node, using Nodemon, via:
 ```
@@ -57,7 +58,7 @@ npm run test
 ```
 
 ## Contributing
-Please read [CONTRIBUTING.md] for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/chrisjmit/ra/blob/readme/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Authors
 * **Ana-Maria Suciu**
@@ -73,7 +74,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * XP values
 * Bodhi the Hedgehog of Westward Ho!
 
-### MVP User stories
+## MVP User stories
 
 ```
 As a user,
@@ -93,7 +94,7 @@ So I know if it is going to be sunny,
 I want to be able to see the forecast at a location
 ```
 
-### Additional User stories
+## Additional User stories
 ```
 As a user,
 So I can share my experience,
