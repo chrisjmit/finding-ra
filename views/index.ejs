@@ -136,6 +136,9 @@
       function renderDetails(place, marker) {
         infoWindow.setContent(renderHTML(place));
         infoWindow.open(map, marker);
+        document.getElementById('submitTimes').onclick = function() {
+          sunTimesSubmit(place);
+        };
       }
 
       function renderHTML(place) {
@@ -154,20 +157,15 @@
                 '<input type="text" id="startTime" data-format="HH:mm" data-template="HH : mm" name="startTime">  ' +
               'End time: ' +
                 '<input type="text" id="endTime" data-format="HH:mm" data-template="HH : mm" name="endTime">' +
-                '<input type="button" onclick="sunTimesSubmit(place)" value="Submit">  ' +
+                '<input type="button" id="submitTimes" value="Submit">  ' +
           '</form>'
         );
       }
 
-      // function renderSunTimeForm(place) {
-      //   return (
-          
-      //     );
-      // }
-
       function sunTimesSubmit(place){
         var start = document.getElementById("startTime").value;
         var end = document.getElementById("endTime").value;
+        var models = require('/server/models/place.js');
 
         models.sequelize.transaction(function(trans){
           return models.places.findOrCreate({
