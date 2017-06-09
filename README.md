@@ -6,8 +6,10 @@ Sunny outside? Finding Ra is an app dedicated finding you a sunny spot outdoors 
 Finding Ra uses the Google Maps Javascript API, Google Places API and Geolocator
 API's to render a map of the currently open establishments within 1000 meters of the current location.
 
-Compiled over a few fast days during 'practice project week' of week 9 at Makers Academy, k
+## Background
+Following an early morning brainstorming session on Monday the 5th June 2017, our tema of four opted to look to a digital way to catch a few more rays  as our project for 'practice project week' of week 9 at Makers Academy.
 
+Serving as an introduction to the Google Maps API functionality and deploying via NodeJS, we compiled the following over a fast few days during which we met the highs and lows of click events, modules and.... ES6.
 
 ## Getting started
 
@@ -20,7 +22,6 @@ What things you need to install the software and how to install them:
 ```
 brew install git
 brew install npm
-npm install npm@latest -g
 ```
 
 ### Installing
@@ -38,18 +39,16 @@ To setup the test and development databases, run:
 sequelize db:create
 sequelize db:migrate
 ```
-Register with Google for an API key (https://developers.google.com/maps/documentation/javascript/get-api-key)
-Replace the API key used for call requests as below:
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places&callback=initMap"
-```
+* Register with Google for an API key (https://developers.google.com/maps/documentation/javascript/get-api-key)
+* In Views/Index.ejs, replace the API key used for call requests as below:
+"https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places&callback=initMap"
+
+
 Run a server in Node, using Nodemon, via:
 ```
 npm run start:dev
 ```
 Visit the server at http://localhost:3000
-```
-
-
 
 ## Running tests
 Testing uses Jasmine-Node and Zombie.js headless browser for click test events.
@@ -59,9 +58,7 @@ npm run test
 ```
 
 ## Contributing
-Please read [CONTRIBUTING.md] for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
+Please read [CONTRIBUTING.md](https://github.com/chrisjmit/ra/blob/readme/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Authors
 * **Ana-Maria Suciu**
@@ -73,14 +70,11 @@ Please read [CONTRIBUTING.md] for details on our code of conduct, and the proces
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
-*
-*
-* Bodhi the Hedgehog
+* Ra
+* XP values
+* Bodhi the Hedgehog of Westward Ho!
 
-
-
-
-### MVP User stories
+## MVP User stories
 
 ```
 As a user,
@@ -100,7 +94,7 @@ So I know if it is going to be sunny,
 I want to be able to see the forecast at a location
 ```
 
-### Additional User stories
+## Additional User stories
 ```
 As a user,
 So I can share my experience,
