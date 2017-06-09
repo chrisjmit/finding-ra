@@ -18,3 +18,10 @@ a {
 #map {
   height: 100%;
 }
+
+img {
+  padding:inherit;
+  border-radius: 24px;
+  height: auto;
+  max-width: 100%;
+}
