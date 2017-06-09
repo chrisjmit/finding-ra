@@ -150,7 +150,12 @@
             checkPlaceIsOpen(place) + '<br>' +
             checkForAttribute(place.formatted_address) + '<br><p><a target="_blank" href=' +
             place.website + '>' +
-            checkForAttribute(place.website) + '</a></p></div>'
+            checkForAttribute(place.website) + '</a></p></div><br>' +
+            'Enter times for this venue where you can sit out in the sun!' +
+            '<form onclick="saveSunnyHours">'
+              'Start time: <input type="text" id="startTime" data-format="HH:mm" data-template="HH : mm" name="datetime">'
+              'End time: <input type="text" id="endTime" data-format="HH:mm" data-template="HH : mm" name="datetime">'
+            '</form>'
         );
       }
 
