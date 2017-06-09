@@ -41,7 +41,7 @@ sequelize db:migrate
 ```
 * Register with Google for an API key (https://developers.google.com/maps/documentation/javascript/get-api-key)
 * In Views/Index.ejs, replace the API key used for call requests as below:
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places&callback=initMap">
 
 
 Run a server in Node, using Nodemon, via:
