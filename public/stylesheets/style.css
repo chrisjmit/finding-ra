@@ -1,20 +1,62 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-boz-sizing: border-box;
+  box-sizing: border-box;
+}
+
 html, body {
   height: 100%;
   margin: 0;
-  padding: 0;
+  padding: 10px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  height:inherit;
-  margin: inherit;
+  background-image: url(https://s3.eu-west-2.amazonaws.com/ra-im/seigaiha.png);
 }
 
 a {
   color: #00B7FF;
+  opacity: 1;
+}
+
+h3 {
+  text-align: center;
+}
+
+img.center {
+  padding:inherit;
+  border-radius: 24px;
+  height: auto;
+  width: 30%;
+  opacity: 1;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #map {
   height: 100%;
+  opacity: 1;
+  border-radius: 24px;
+  min-width: 200px;
+}
+
+.button {
+    padding: 5px 5px;
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    border: 0;
+    margin: 5px;
+    border-radius: 6px;
+    line-height: 18px;
+    width: 120px;
+}
+
+.dropmenu {
+  position: relative;
+  display: inline-block;
+  width: 120px;
 }
