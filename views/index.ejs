@@ -20,6 +20,11 @@
       <option value="restaurant">Restaurant</option>
     </select>
 
+    <button id = 'userLocation' onclick= 'centerUserPosition()'>
+      <label> Find my position </label>
+    </button>
+
+
       <div id="map"></div>
 
       <script>
@@ -31,30 +36,28 @@
       var infowindow;
       var markers = [];
 
+      function setVenueType() {
+        var placeTypeValue = document.getElementById("placeType").value;
+        getPosition(function(position) { refreshMap(); findPlaces(findLocation(position), placeTypeValue); });
+      }
+
+      function refreshMap() {
+        for (var i = 0; i < markers.length; i++ ) {
+          markers[i].setMap(null);
+        }
+        markers.length = 0;
+      }
+
       function initMap() {
-        var london = {
+        var mapCenter = {
           lat: 51.5073509,
           lng: -0.12775829999998223
         };
         map = new google.maps.Map(document.getElementById('map'), {
-          center: london,
+          center: mapCenter,
           zoom: 15
         });
-        if (navigator.geolocation) {
-          getPosition(function(position) {
-            london = findLocation(position);
-            map.setCenter(london);
-            for (var i = 0; i < markers.length; i++) {
-              markers[i].setMap(null);
-            }
-            markers = [];
-            renderUserLocationMarker();
-            findPlaces(london);
-          });
-        } else {
-          alert("We can't find where you are so you'll have to find yourself!");
-        }
-        findPlaces(london, "bar");
+        findPlaces(mapCenter, "bar");
       }
 
       function findLocation(position) {
@@ -64,13 +67,22 @@
         };
       }
 
-      function getPosition(callback) {
-        navigator.geolocation.getCurrentPosition(function(position) {callback(position); });
+      function centerUserPosition(){
+        var mapCenter;
+        if (navigator.geolocation) {
+          getPosition(function(position) {
+            mapCenter = findLocation(position);
+            map.setCenter(mapCenter);
+            renderUserLocationMarker();
+            findPlaces(mapCenter, 'bar');
+          });
+        } else {
+          alert("We can't find where you are so you'll have to find yourself!");
+        }
       }
 
-      function setVenueType() {
-        var placeTypeValue = document.getElementById("placeType").value;
-        getPosition(function(position) { findPlaces(findLocation(position), placeTypeValue); });
+      function getPosition(callback) {
+        navigator.geolocation.getCurrentPosition(function(position) { callback(position); });
       }
 
       function renderUserLocationMarker() {
@@ -95,7 +107,6 @@
       function processSearchResults(placesArray, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           for (var i = 0; i < placesArray.length; i++) {
-            console.log(placesArray[i]);
             createMarker(placesArray[i]);
           }
         }
@@ -162,7 +173,6 @@
         }
         return result;
       }
-
 
     </script>
 
